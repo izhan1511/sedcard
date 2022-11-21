@@ -1,0 +1,5 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Boogaloo&family=Chelsea+Market&family=Finger+Paint&family=Kanit&family=Lora&family=Montserrat&family=Open+Sans&family=Playfair+Display&family=Poiret+One&family=Poppins&family=Raleway&family=Roboto&family=Syncopate&family=Ubuntu&display=swap');
