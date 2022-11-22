@@ -35,22 +35,22 @@
         </button>
       </div>
       <!-- Modal body -->
-      <div class="p-6 grid grid-cols-2 gap-x-2">
+      <div class="p-6 grid grid-cols-2 gap-x-28">
         <!-- Cropper -->
         <div>
-          <clipper-fixed
+          <clipper-basic
             ref="clipper"
-            class="basic md clipper-fixed"
-            :area="area"
+            class="basic md clipper-basic"
+            :scale="scale"
             :ratio="ratio"
             :src="imageRef"
             bg-color="black"
             preview="preview"
-          ></clipper-fixed>
+          ></clipper-basic>
         </div>
         <div>
           <clipper-preview
-            class="col-span-1 fixed md w-[200px]"
+            class="col-span-1 basic md w-[200px] h-[200px]"
             name="preview"
           ></clipper-preview>
         </div>
@@ -80,7 +80,12 @@
           },
         ]"
       >
-        <img v-if="imageResultURL" :src="imageResultURL" alt="user-image" />
+        <img
+          class="w-[350px] h-[500px]"
+          v-if="imageResultURL"
+          :src="imageResultURL"
+          alt="user-image"
+        />
         <p class="text-sm font-semibold" v-else>Please Upload an Image</p>
         <div
           :style="{
@@ -119,6 +124,7 @@
         </div>
         <div v-else>
           <img
+            class="w-[350px] h-[500px]"
             v-if="backImageResultURL"
             :src="backImageResultURL"
             alt="user-image"
@@ -132,6 +138,7 @@
       >
         <!-- Front Result -->
         <div
+          class="col-span-3"
           :style="[
             getTemplate.main,
             {
@@ -139,7 +146,12 @@
             },
           ]"
         >
-          <img v-if="imageResultURL" :src="imageResultURL" alt="user-image" />
+          <img
+            class="w-[350px] h-[500px]"
+            v-if="imageResultURL"
+            :src="imageResultURL"
+            alt="user-image"
+          />
           <p class="text-sm font-semibold" v-else>Please Upload an Image</p>
           <div
             :style="{
@@ -166,7 +178,7 @@
           </div>
         </div>
         <!-- Back Result -->
-        <div class="relative w-[350px] h-[500px]">
+        <div class="col-span-3 relative w-[350px] h-[500px]">
           <div
             v-if="backFormInput.backImageURL === ''"
             class="text-center w-fill text-sm font-semibold p-5"
@@ -175,6 +187,7 @@
           </div>
           <div v-else>
             <img
+              class="w-[350px] h-[500px]"
               v-if="backImageResultURL"
               :src="backImageResultURL"
               alt="user-image"
@@ -183,8 +196,6 @@
         </div>
       </div>
     </div>
-    <!-- Spacer -->
-    <div class="col-span-1"></div>
   </div>
 </template>
 
@@ -229,8 +240,8 @@ export default {
   },
   data() {
     return {
-      area: 20,
-      ratio: -1,
+      ratio: 0.5,
+      scale: 1,
       imageResultURL: "",
       backImageResultURL: "",
       templateOne: {
@@ -240,7 +251,7 @@ export default {
           position: "relative",
         },
         h3: {
-          width: "350px",
+          width: "100%",
           position: "absolute",
           top: "420px",
           left: 0,
@@ -250,7 +261,7 @@ export default {
           "font-size": 32,
         },
         p: {
-          width: "350px",
+          width: "100%",
           position: "absolute",
           top: "480px",
           left: 0,
@@ -262,7 +273,7 @@ export default {
       templateTwo: {
         main: {
           width: "350px",
-          height: "530px",
+          height: "600px",
           padding: "0 20px 0 20px",
           position: "relative",
           "text-align": "center",
@@ -272,9 +283,9 @@ export default {
           height: "500px",
         },
         h3: {
-          width: "350px",
+          width: "100%",
           position: "absolute",
-          top: "455px",
+          top: "495px",
           left: 0,
           "z-index": 100,
           color: "black",
@@ -282,9 +293,9 @@ export default {
           padding: "5px 0 5px 0",
         },
         p: {
-          width: "350px",
+          width: "100%",
           position: "absolute",
-          top: "495px",
+          top: "540px",
           left: 0,
           "z-index": 100,
           color: "black",
@@ -304,7 +315,7 @@ export default {
           height: "500px",
         },
         h3: {
-          width: "350px",
+          width: "100%",
           position: "absolute",
           top: "115px",
           left: "100px",
