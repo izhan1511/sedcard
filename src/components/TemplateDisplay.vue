@@ -240,7 +240,7 @@ export default {
   },
   data() {
     return {
-      ratio: 0.5,
+      ratio: 0.7,
       scale: 1,
       imageResultURL: "",
       backImageResultURL: "",
