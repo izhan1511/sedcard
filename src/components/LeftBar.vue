@@ -253,6 +253,8 @@
               </div>
               <div class="col-span-4">
                 <button
+                  type="submit"
+                  @click="saveUserStyles"
                   class="bg-primary w-full text-white text-xs font-semibold px-5 py-2 rounded-md"
                 >
                   Next
@@ -332,6 +334,8 @@
                     Select File
                   </button>
                   <button
+                    type="submit"
+                    @click="activeForm = 'front'"
                     class="col-span-3 text-primary text-xs font-semibold rounded-md flex flex-row items-center"
                   >
                     <svg
@@ -352,6 +356,8 @@
                     <span>Previous</span>
                   </button>
                   <button
+                    type="submit"
+                    @click="activeForm = 'check'"
                     class="bg-primary w-full text-white text-xs font-semibold px-5 py-2 rounded-md"
                   >
                     Next
@@ -381,7 +387,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 import CheckoutForm from "./CheckoutForm.vue";
 import TemplateDisplay from "./TemplateDisplay.vue";
@@ -417,8 +423,13 @@ export default {
     ...mapGetters(["getSelectedTemplate"]),
   },
   methods: {
+    ...mapMutations(["setUserFrontStyles"]),
     toggleActiveModal(value) {
       this.activeModal = value;
+    },
+    saveUserStyles() {
+      this.setUserFrontStyles({ frontFormInput: this.frontFormInput });
+      this.activeForm = "back";
     },
     uploadImage(e) {
       e.preventDefault();

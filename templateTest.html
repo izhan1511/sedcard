@@ -9,6 +9,10 @@
 </head>
 
 <style>
+  body {
+    background-color: red;
+  }
+
   img {
     width: 350px;
     height: 500px;
@@ -17,22 +21,26 @@
   h3 {
     width: 350px;
     position: absolute;
-    top: 400px;
-    left: 0;
-    z-index: 100;
-    color: black;
-    background-color: white;
-    font-size: xx-large;
-  }
-
-  p {
-    width: 350px;
-    position: absolute;
-    top: 460px;
-    left: 0;
+    top: 75px;
+    left: 100px;
     z-index: 100;
     color: white;
     background-color: transparent;
+    font-size: xx-large;
+    transform: rotate(-75deg);
+  }
+
+  p {
+    width: 522px;
+    position: absolute;
+    top: 175px;
+    left: 95px;
+    z-index: 100;
+    color: black;
+    background-color: white;
+    transform: rotate(-75deg);
+    padding-top: 10px;
+    padding-bottom: 125px;
   }
 
   .main {
@@ -40,6 +48,7 @@
     height: 500px;
     position: relative;
     text-align: center;
+    overflow: hidden;
   }
 </style>
 

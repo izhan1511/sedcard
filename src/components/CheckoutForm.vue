@@ -62,7 +62,7 @@
       </div>
       <!-- Printed Copies Form -->
       <div v-if="printedCopies" class="col-span-4">
-        <!-- Printed Quality -->
+        <!-- Printed Quantity -->
         <div
           v-if="printedCopies"
           class="col-span-4 grid grid-cols-4 items-center mb-5"
@@ -72,7 +72,7 @@
           </h2>
           <div class="col-span-1 grid grid-cols-1 items-center">
             <div class="flex items-center">
-              <input id="default-radio-1" type="radio" name="default-radio" />
+              <input id="pq1" type="radio" name="pq" />
               <label
                 for="default-radio-1"
                 class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -82,12 +82,7 @@
           </div>
           <div class="col-span-1 grid grid-cols-1 items-center">
             <div class="flex items-center">
-              <input
-                checked
-                id="default-radio-2"
-                type="radio"
-                name="default-radio"
-              />
+              <input checked id="pq2" type="radio" name="pq" />
               <label
                 for="default-radio-2"
                 class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -97,12 +92,7 @@
           </div>
           <div class="col-span-1 grid grid-cols-1 items-center">
             <div class="flex items-center">
-              <input
-                checked
-                id="default-radio-3"
-                type="radio"
-                name="default-radio"
-              />
+              <input checked id="pq3" type="radio" name="pq" />
               <label
                 for="default-radio-3"
                 class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -112,12 +102,7 @@
           </div>
           <div class="col-span-1 grid grid-cols-1 items-center">
             <div class="flex items-center">
-              <input
-                checked
-                id="default-radio-4"
-                type="radio"
-                name="default-radio"
-              />
+              <input checked id="pq4" type="radio" name="pq" />
               <label
                 for="default-radio-4"
                 class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -136,7 +121,7 @@
           </h2>
           <div class="col-span-2 grid grid-cols-2 items-center">
             <div class="col-span-2 flex flex-row">
-              <input id="default-radio-1" type="radio" name="default-radio" />
+              <input id="co1" type="radio" name="co" />
               <label
                 for="default-radio-1"
                 class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -146,7 +131,7 @@
           </div>
           <div class="col-span-2 grid grid-cols-2 items-center">
             <div class="col-span-2 flex flex-row">
-              <input id="default-radio-1" type="radio" name="default-radio" />
+              <input id="co2" type="radio" name="co" />
               <label
                 for="default-radio-1"
                 class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -165,7 +150,7 @@
           </h2>
           <div class="col-span-2 flex flex-col space-y-3">
             <div class="flex flex-row">
-              <input id="default-radio-1" type="radio" name="default-radio" />
+              <input id="sm1" type="radio" name="sm" />
               <label
                 for="default-radio-1"
                 class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -173,12 +158,7 @@
               >
             </div>
             <div class="flex flex-row">
-              <input
-                checked
-                id="default-radio-2"
-                type="radio"
-                name="default-radio"
-              />
+              <input checked id="sm2" type="radio" name="sm" />
               <label
                 for="default-radio-2"
                 class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -188,12 +168,7 @@
           </div>
           <div class="col-span-2 flex flex-col space-y-3">
             <div class="flex flex-row">
-              <input
-                checked
-                id="default-radio-3"
-                type="radio"
-                name="default-radio"
-              />
+              <input checked id="sm3" type="radio" name="sm" />
               <label
                 for="default-radio-3"
                 class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -201,12 +176,7 @@
               >
             </div>
             <div class="flex flex-row">
-              <input
-                checked
-                id="default-radio-4"
-                type="radio"
-                name="default-radio"
-              />
+              <input checked id="sm4" type="radio" name="sm" />
               <label
                 for="default-radio-4"
                 class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -395,8 +365,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
 export default {
   name: "CheckoutForm",
   data() {
@@ -404,14 +372,7 @@ export default {
       digitalDownload: false,
       printedCopies: false,
       discount: false,
-      images: {},
     };
-  },
-  methods: {
-    ...mapActions(["getImageURL"]),
-  },
-  async created() {
-    this.images = await this.getImageURL("check");
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-span-5 grid grid-cols-5">
+  <div class="col-span-6 grid grid-cols-6">
     <!-- Modal -->
     <div
       v-if="activeModal"
@@ -38,14 +38,15 @@
       <div class="p-6 grid grid-cols-2 gap-x-2">
         <!-- Cropper -->
         <div>
-          <clipper-basic
-            :min-width="minWidth"
-            :min-height="minHeight"
+          <clipper-fixed
             ref="clipper"
+            class="basic md clipper-fixed"
+            :area="area"
+            :ratio="ratio"
             :src="imageRef"
+            bg-color="black"
             preview="preview"
-            class="col-span-1 w-full"
-          ></clipper-basic>
+          ></clipper-fixed>
         </div>
         <div>
           <clipper-preview
@@ -72,7 +73,12 @@
       <!-- Front Editor -->
       <div
         v-if="activeForm === 'front' && !activeModal"
-        class="relative w-[350px] h-[500px]"
+        :style="[
+          getTemplate.main,
+          {
+            backgroundColor: frontFormInput.background,
+          },
+        ]"
       >
         <img v-if="imageResultURL" :src="imageResultURL" alt="user-image" />
         <p class="text-sm font-semibold" v-else>Please Upload an Image</p>
@@ -80,6 +86,7 @@
           :style="{
             'font-family': frontFormInput.font,
             'text-align': frontFormInput.textAlignment,
+            'background-color': frontFormInput.background,
           }"
         >
           <h3
@@ -102,7 +109,7 @@
       <!-- Back Editor -->
       <div
         v-else-if="activeForm === 'back'"
-        class="col-span-4 rounded-md m-0 p-0"
+        class="relative w-[350px] h-[500px]"
       >
         <div
           v-if="backFormInput.backImageURL === ''"
@@ -111,28 +118,69 @@
           <span>Please Upload an Image</span>
         </div>
         <div v-else>
-          <div class="flex flex-row items-center justify-center">
-            <div class="flex-1">
-              <!-- Cropper -->
-              <clipper-basic
-                ref="clipper"
-                :src="imageRef"
-                preview="preview"
-              ></clipper-basic>
-            </div>
-            <div class="flex">
-              <clipper-preview
-                class="basic md"
-                name="preview"
-              ></clipper-preview>
-            </div>
-          </div>
+          <img
+            v-if="backImageResultURL"
+            :src="backImageResultURL"
+            alt="user-image"
+          />
         </div>
       </div>
       <!-- CheckForm Editor -->
-      <div v-else class="col-span-4 rounded-md m-0 p-0">
-        <img class="col-span-2" :src="imageResultURL" alt="front" />
-        <img class="col-span-2" :src="backmageResultURL" alt="back" />
+      <div
+        v-else
+        class="col-span-6 flex flex-row items-center justify-center space-x-4 rounded-md m-0 p-0"
+      >
+        <!-- Front Result -->
+        <div
+          :style="[
+            getTemplate.main,
+            {
+              backgroundColor: frontFormInput.background,
+            },
+          ]"
+        >
+          <img v-if="imageResultURL" :src="imageResultURL" alt="user-image" />
+          <p class="text-sm font-semibold" v-else>Please Upload an Image</p>
+          <div
+            :style="{
+              'font-family': frontFormInput.font,
+              'text-align': frontFormInput.textAlignment,
+              'background-color': frontFormInput.background,
+            }"
+          >
+            <h3
+              :style="[
+                getTemplate.h3,
+                {
+                  color: frontFormInput.fontColor,
+                  fontSize: frontFormInput.fontSize + 'px',
+                },
+                ,
+              ]"
+            >
+              {{ frontFormInput.name }}
+            </h3>
+            <p :style="getTemplate.p">
+              {{ frontFormInput.tagline }}
+            </p>
+          </div>
+        </div>
+        <!-- Back Result -->
+        <div class="relative w-[350px] h-[500px]">
+          <div
+            v-if="backFormInput.backImageURL === ''"
+            class="text-center w-fill text-sm font-semibold p-5"
+          >
+            <span>Please Upload an Image</span>
+          </div>
+          <div v-else>
+            <img
+              v-if="backImageResultURL"
+              :src="backImageResultURL"
+              alt="user-image"
+            />
+          </div>
+        </div>
       </div>
     </div>
     <!-- Spacer -->
@@ -181,19 +229,20 @@ export default {
   },
   data() {
     return {
-      minWidth: 5,
-      minHeight: 15,
+      area: 20,
+      ratio: -1,
       imageResultURL: "",
       backImageResultURL: "",
       templateOne: {
-        img: {
+        main: {
           width: "350px",
           height: "500px",
+          position: "relative",
         },
         h3: {
           width: "350px",
           position: "absolute",
-          top: "400px",
+          top: "420px",
           left: 0,
           "z-index": 100,
           color: "#000000",
@@ -203,7 +252,7 @@ export default {
         p: {
           width: "350px",
           position: "absolute",
-          top: "460px",
+          top: "480px",
           left: 0,
           "z-index": 100,
           color: "#FFFFFF",
@@ -211,57 +260,71 @@ export default {
         },
       },
       templateTwo: {
-        img: {
-          margin: 0,
-          padding: 0,
+        main: {
           width: "350px",
-          "background-color": "transparent",
+          height: "530px",
+          padding: "0 20px 0 20px",
+          position: "relative",
+          "text-align": "center",
+        },
+        img: {
+          width: "350px",
+          height: "500px",
         },
         h3: {
-          "font-size": "large",
-          "text-align": "center",
-          padding: "0px 10px 0px 10px",
-          color: "#000000",
-          "background-color": "#FFFFFF",
-          position: "relative",
-          bottom: 0,
-          right: 0,
+          width: "350px",
+          position: "absolute",
+          top: "455px",
+          left: 0,
+          "z-index": 100,
+          color: "black",
+          "font-size": "xx-large",
+          padding: "5px 0 5px 0",
         },
         p: {
-          "text-align": "center",
-          padding: "0px 10px 0px 10px",
-          color: "#FFFFFF",
-          background: "transparent",
-          position: "relative",
-          bottom: 0,
-          right: 0,
+          width: "350px",
+          position: "absolute",
+          top: "495px",
+          left: 0,
+          "z-index": 100,
+          color: "black",
+          padding: "5px 0 5px 0",
         },
       },
       templateThree: {
-        img: {
-          margin: 0,
-          padding: 0,
+        main: {
           width: "350px",
-          "background-color": "transparent",
+          height: "500px",
+          position: "relative",
+          "text-align": "center",
+          overflow: "hidden",
+        },
+        img: {
+          width: "350px",
+          height: "500px",
         },
         h3: {
-          "font-size": "large",
-          "text-align": "center",
-          padding: "50px",
-          color: "#000000",
-          "background-color": "#FFFFFF",
-          position: "relative",
-          bottom: 0,
-          right: 0,
+          width: "350px",
+          position: "absolute",
+          top: "115px",
+          left: "100px",
+          "z-index": 100,
+          color: "white",
+          "background-color": "transparent",
+          "font-size": "xx-large",
+          transform: "rotate(-75deg)",
         },
         p: {
-          "text-align": "center",
-          padding: "0px 10px 0px 10px",
-          color: "#FFFFFF",
-          background: "transparent",
-          position: "relative",
-          bottom: 0,
-          right: 0,
+          width: "522px",
+          position: "absolute",
+          top: "190px",
+          left: "95px",
+          "z-index": 100,
+          color: "black",
+          "background-color": "white",
+          transform: "rotate(-75deg)",
+          "padding-top": "10px",
+          "padding-bottom": "125px",
         },
       },
     };
