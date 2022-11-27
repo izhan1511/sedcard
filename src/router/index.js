@@ -1,14 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import HeadshotView from "../views/HeadshotView.vue";
+import ACOM from "../views/ACOM.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "headshot",
+    component: HeadshotView,
+  },
+  {
+    path: "/acom",
+    name: "acom",
+    component: ACOM,
   },
 ];
 

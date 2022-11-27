@@ -1,6 +1,8 @@
 <template>
-  <div class="grid grid-cols-12 h-screen items-center justify-center">
-    <div class="col-span-6 grid grid-cols-6">
+  <div
+    class="col-span-10 grid grid-cols-10 h-screen items-center justify-center"
+  >
+    <div class="col-span-4 grid grid-cols-4">
       <!-- Options Bar -->
       <div class="col-span-1 p-5 font-semibold text-xs">
         <ul class="flex flex-col space-y-8 items-center justify-center">
@@ -79,7 +81,7 @@
         </ul>
       </div>
       <!-- Form -->
-      <div class="col-span-4">
+      <div class="col-span-3">
         <!-- Front Form -->
         <div v-if="activeForm === 'front'">
           <div class="bg-white drop-shadow-xl rounded-lg p-5 text-xs h-auto">
@@ -87,7 +89,8 @@
               <h1 class="text-lg font-semibold text-black">Info</h1>
               <p>Add your information below.</p>
             </div>
-            <form class="grid grid-cols-4 pb-3">
+            <!-- Info -->
+            <form class="col-span-4 grid grid-cols-3 pb-3">
               <input
                 type="text"
                 placeholder="Name"
@@ -127,10 +130,12 @@
                 </svg>
                 <span>Add Image</span>
               </button>
+              <!-- Design -->
               <div class="col-span-4 mt-3">
                 <h1 class="text-lg font-semibold text-black">Design</h1>
                 <p>Add and design your information below.</p>
               </div>
+              <!-- Font & Font Size -->
               <div
                 class="col-span-4 flex flex-row space-x-3 justify-center items-center my-3"
               >
@@ -174,7 +179,7 @@
                   </option>
                   <option value="Ubuntu, sans-serif">Ubuntu, sans-serif</option>
                 </select>
-                <div class="flex flex-row space-x-2">
+                <div class="flex flex-row border-b border-gray-400 pb-1">
                   <button type="button" @click="decrementFontSize">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -182,7 +187,7 @@
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      class="w-4 h-4"
+                      class="w-[23px]"
                     >
                       <path
                         stroke-linecap="round"
@@ -194,7 +199,7 @@
                   <input
                     type="Number"
                     placeholder="In px"
-                    class="w-[30px] text-center outline-none"
+                    class="w-[30px] text-center outline-none text-[16px]"
                     v-model="frontFormInput.fontSize"
                   />
                   <button type="button" @click="incrementFontSize">
@@ -204,7 +209,7 @@
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      class="w-4 h-4"
+                      class="w-[23px]"
                     >
                       <path
                         stroke-linecap="round"
@@ -220,22 +225,32 @@
                 class="col-span-4 flex flex-row justify-between items-center space-x-[112px] mb-5 border-b pb-1 border-gray-400"
               >
                 <label for="" class="flex">BG Color</label>
-                <input
-                  class="flex"
-                  type="color"
-                  v-model="frontFormInput.background"
-                />
+                <div
+                  class="flex flex-row items-center justify-center space-x-2"
+                >
+                  <span class="uppercase">{{ frontFormInput.background }}</span>
+                  <input
+                    class="flex color"
+                    type="color"
+                    v-model="frontFormInput.background"
+                  />
+                </div>
               </div>
               <!-- Font Color -->
               <div
-                class="col-span-4 flex flex-row justify-between items-center space-x-[102px] mb-5 border-b pb-1 border-gray-400"
+                class="col-span-4 flex flex-row justify-between items-center space-x-[112px] mb-5 border-b pb-1 border-gray-400"
               >
                 <label for="" class="flex">Font Color</label>
-                <input
-                  class="flex"
-                  type="color"
-                  v-model="frontFormInput.fontColor"
-                />
+                <div
+                  class="flex flex-row items-center justify-center space-x-2"
+                >
+                  <span class="uppercase">{{ frontFormInput.fontColor }}</span>
+                  <input
+                    class="flex color"
+                    type="color"
+                    v-model="frontFormInput.fontColor"
+                  />
+                </div>
               </div>
               <!-- Text Alignment -->
               <div
@@ -251,7 +266,10 @@
                   <option value="justify">justify</option>
                 </select>
               </div>
-              <div class="col-span-4">
+              <!-- Spacer -->
+              <div class="col-span-1"></div>
+              <div class="col-span-1"></div>
+              <div class="col-span-1">
                 <button
                   type="submit"
                   @click="saveUserStyles"
@@ -264,105 +282,273 @@
           </div>
         </div>
         <!-- Back Form -->
-        <div
-          v-else-if="activeForm === 'back'"
-          class="grid grid-cols-4 col-span-4"
-        >
+        <div v-else-if="activeForm === 'back'">
           <div
-            class="col-span-4 bg-white drop-shadow-xl rounded-lg p-5 text-xs h-auto"
+            v-if="this.$router.currentRoute.fullPath !== '/acom'"
+            class="grid grid-cols-4 col-span-4"
           >
-            <!-- Info Form -->
+            <div
+              class="col-span-4 bg-white drop-shadow-xl rounded-lg p-5 text-xs h-auto"
+            >
+              <!-- Info Form -->
+              <div class="pb-3">
+                <h1 class="text-lg font-semibold text-black">Info</h1>
+                <p>Add your information below.</p>
+              </div>
+              <form class="grid grid-cols-4 pb-3">
+                <div class="col-span-4 grid grid-cols-4">
+                  <!-- Toggler -->
+                  <div class="grid grid-cols-4 col-span-4 items-center pb-5">
+                    <span class="col-span-3">Print on Back ?</span>
+                    <div
+                      class="col-span-1 flex flex-col cursor-pointer text-white"
+                      @click="toggleForm = !toggleForm"
+                    >
+                      <div
+                        class="mx-auto items-center w-16 h-8 bg-gray-400 rounded-2xl p-1 flex flex-row space-x-1"
+                        :class="{
+                          'w-16 h-8 rounded-2xl p-1 flex flex-row space-x-1 bg-[#4E67EB]':
+                            toggleForm,
+                        }"
+                      >
+                        <div
+                          class="w-6 h-6 bg-white rounded-2xl"
+                          :class="{ 'order-1': toggleForm }"
+                        ></div>
+                        <div>
+                          <p class="font-semibold mr-1">
+                            {{ toggleForm ? "YES" : "NO" }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Form -->
+                  <div v-if="toggleForm" class="grid grid-cols-4 col-span-4">
+                    <!-- Select File Type -->
+                    <div
+                      class="col-span-4 flex flex-row space-x-3 justify-between items-center mb-5"
+                    >
+                      <select
+                        class="flex-1 border-b border-gray-400 pb-2"
+                        v-model="backFormInput.backFileType"
+                      >
+                        <option disabled selected hidden>
+                          Select File Type
+                        </option>
+                        <option value="png">PNG</option>
+                        <option value="jpeg">JPEG</option>
+                      </select>
+                    </div>
+                    <input
+                      type="file"
+                      class="hidden"
+                      id="backImageUpload"
+                      name="backImageUpload"
+                      @change="onFileChange"
+                      :accept="`image/${backFormInput.backFileType}`"
+                    />
+                    <button
+                      @click="uploadImage"
+                      class="col-span-4 flex flex-row space-x-5 bg-white border border-primary justify-center items-center rounded-md mb-5 text-primary font-semibold py-2"
+                    >
+                      Select File
+                    </button>
+                    <button
+                      type="submit"
+                      @click="activeForm = 'front'"
+                      class="col-span-3 text-primary text-xs font-semibold rounded-md flex flex-row items-center"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-4 h-4"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15.75 19.5L8.25 12l7.5-7.5"
+                        />
+                      </svg>
+
+                      <span>Previous</span>
+                    </button>
+                    <button
+                      type="submit"
+                      @click="activeForm = 'check'"
+                      class="bg-primary w-full text-white text-xs font-semibold px-5 py-2 rounded-md"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div
+            v-else
+            class="bg-white drop-shadow-xl rounded-lg p-5 text-xs h-auto"
+          >
             <div class="pb-3">
               <h1 class="text-lg font-semibold text-black">Info</h1>
               <p>Add your information below.</p>
             </div>
-            <form class="grid grid-cols-4 pb-3">
-              <div class="col-span-4 grid grid-cols-4">
-                <!-- Toggler -->
-                <div class="grid grid-cols-4 col-span-4 items-center pb-5">
-                  <span class="col-span-3">Print on Back ?</span>
-                  <div
-                    class="col-span-1 flex flex-col cursor-pointer text-white"
-                    @click="toggleForm = !toggleForm"
-                  >
-                    <div
-                      class="mx-auto items-center w-16 h-8 bg-gray-400 rounded-2xl p-1 flex flex-row space-x-1"
-                      :class="{
-                        'w-16 h-8 rounded-2xl p-1 flex flex-row space-x-1 bg-[#4E67EB]':
-                          toggleForm,
-                      }"
-                    >
-                      <div
-                        class="w-6 h-6 bg-white rounded-2xl"
-                        :class="{ 'order-1': toggleForm }"
-                      ></div>
-                      <div>
-                        <p class="font-semibold mr-1">
-                          {{ toggleForm ? "YES" : "NO" }}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Form -->
-                <div v-if="toggleForm" class="grid grid-cols-4 col-span-4">
-                  <!-- Select File Type -->
-                  <div
-                    class="col-span-4 flex flex-row space-x-3 justify-between items-center mb-5"
-                  >
-                    <select
-                      class="flex-1 border-b border-gray-400 pb-2"
-                      v-model="backFormInput.backFileType"
-                    >
-                      <option disabled selected hidden>Select File Type</option>
-                      <option value="png">PNG</option>
-                      <option value="jpeg">JPEG</option>
-                    </select>
-                  </div>
+            <!-- Info -->
+            <form class="col-span-4 grid grid-cols-3 pb-3">
+              <!-- Select Number of Images -->
+              <div
+                class="col-span-4 flex flex-row space-x-3 justify-between items-center mb-5"
+              >
+                <select
+                  class="flex-1 border-b border-gray-400 pb-2"
+                  v-model="backACOMInput.images"
+                >
+                  <option value="2">2 Images</option>
+                  <option value="2B">2 Images B</option>
+                  <option value="2C">2 Images C</option>
+                  <option value="3">3 Images</option>
+                  <option value="3B">3 Images B</option>
+                  <option value="4">4 Images</option>
+                  <option value="4B">4 Images B</option>
+                  <option value="6">6 Images</option>
+                  <option value="7">7 Images</option>
+                  <option value="8">8 Images</option>
+                  <option value="9">9 Images</option>
+                </select>
+              </div>
+              <!-- BG Color -->
+              <div
+                class="col-span-4 flex flex-row justify-between items-center space-x-[112px] mb-5 border-b pb-1 border-gray-400"
+              >
+                <label for="" class="flex">BG Color</label>
+                <div
+                  class="flex flex-row items-center justify-center space-x-2"
+                >
+                  <span class="uppercase">{{ backACOMInput.background }}</span>
                   <input
-                    type="file"
-                    class="hidden"
-                    id="backImageUpload"
-                    name="backImageUpload"
-                    @change="onFileChange"
-                    :accept="`image/${backFormInput.backFileType}`"
+                    class="flex color"
+                    type="color"
+                    v-model="backACOMInput.background"
                   />
-                  <button
-                    @click="uploadImage"
-                    class="col-span-4 flex flex-row space-x-5 bg-white border border-primary justify-center items-center rounded-md mb-5 text-primary font-semibold py-2"
-                  >
-                    Select File
-                  </button>
-                  <button
-                    type="submit"
-                    @click="activeForm = 'front'"
-                    class="col-span-3 text-primary text-xs font-semibold rounded-md flex flex-row items-center"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-4 h-4"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15.75 19.5L8.25 12l7.5-7.5"
-                      />
-                    </svg>
-
-                    <span>Previous</span>
-                  </button>
-                  <button
-                    type="submit"
-                    @click="activeForm = 'check'"
-                    class="bg-primary w-full text-white text-xs font-semibold px-5 py-2 rounded-md"
-                  >
-                    Next
-                  </button>
                 </div>
+              </div>
+              <!-- Font Color -->
+              <div
+                class="col-span-4 flex flex-row justify-between items-center space-x-[112px] mb-5 border-b pb-1 border-gray-400"
+              >
+                <label for="" class="flex">Font Color</label>
+                <div
+                  class="flex flex-row items-center justify-center space-x-2"
+                >
+                  <span class="uppercase">{{ backACOMInput.fontColor }}</span>
+                  <input
+                    class="flex color"
+                    type="color"
+                    v-model="backACOMInput.fontColor"
+                  />
+                </div>
+              </div>
+              <!-- Design -->
+              <div class="col-span-4 mt-3">
+                <h1 class="text-lg font-semibold text-black">Your Data</h1>
+              </div>
+              <!-- Sex & Height -->
+              <div
+                class="col-span-4 flex flex-row space-x-3 justify-between items-center my-3"
+              >
+                <select
+                  class="border-b border-gray-400 pb-2 w-full"
+                  v-model="backACOMInput.sex"
+                >
+                  <option value="M">Male</option>
+                  <option value="F">Female</option>
+                </select>
+                <div class="flex flex-row border-b border-gray-400 pb-1">
+                  <input
+                    type="Number"
+                    placeholder="Height"
+                    class="outline-none py-[3px]"
+                    v-model="backACOMInput.height"
+                  />
+                </div>
+              </div>
+              <!-- Eyes & Hair -->
+              <div
+                class="col-span-4 flex flex-row space-x-3 justify-between items-center my-3"
+              >
+                <input
+                  type="text"
+                  placeholder="Eyes"
+                  class="border-b border-gray-400 pb-2 outline-none py-[3px] w-full"
+                  v-model="backACOMInput.eyes"
+                />
+                <div class="flex flex-row border-b border-gray-400 pb-1">
+                  <input
+                    type="text"
+                    placeholder="Hair"
+                    class="outline-none py-[3px]"
+                    v-model="backACOMInput.hair"
+                  />
+                </div>
+              </div>
+              <!-- Shoes & Age -->
+              <div
+                class="col-span-4 flex flex-row space-x-3 justify-between items-center my-3"
+              >
+                <input
+                  type="text"
+                  placeholder="Shoe Size"
+                  class="border-b border-gray-400 pb-2 outline-none py-[3px] w-full"
+                  v-model="backACOMInput.shoe"
+                />
+                <div class="flex flex-row border-b border-gray-400 pb-1">
+                  <input
+                    type="text"
+                    placeholder="Age"
+                    class="outline-none py-[3px]"
+                    v-model="backACOMInput.age"
+                  />
+                </div>
+              </div>
+              <!-- Other information -->
+              <textarea
+                class="col-span-4 rounded-md w-[100%] border border-gray-300 my-3 p-3"
+                v-model="backACOMInput.other"
+              ></textarea>
+              <div class="col-span-4 grid grid-cols-3">
+                <button
+                  type="submit"
+                  @click="activeForm = 'front'"
+                  class="text-primary text-xs font-semibold rounded-md flex flex-row items-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15.75 19.5L8.25 12l7.5-7.5"
+                    />
+                  </svg>
+
+                  <span>Previous</span>
+                </button>
+                <div class="col-span-1"></div>
+                <button
+                  type="submit"
+                  @click="activeForm = 'check'"
+                  class="bg-primary w-full text-white text-xs font-semibold px-5 py-2 rounded-md"
+                >
+                  Next
+                </button>
               </div>
             </form>
           </div>
@@ -372,17 +558,21 @@
           <CheckoutForm />
         </div>
       </div>
-      <!-- Spacer -->
-      <div class="col-span-1"></div>
     </div>
+    <!-- Spacer -->
+    <div class="col-span-1"></div>
     <!-- Right -->
-    <TemplateDisplay
-      :activeForm="activeForm"
-      :activeModal="activeModal"
-      :frontFormInput="frontFormInput"
-      :backFormInput="backFormInput"
-      @toggleActiveModal="toggleActiveModal"
-    />
+    <div class="col-span-4">
+      <TemplateDisplay
+        :activeForm="activeForm"
+        :activeModal="activeModal"
+        :frontFormInput="frontFormInput"
+        :backFormInput="backFormInput"
+        @toggleActiveModal="toggleActiveModal"
+      />
+    </div>
+    <!-- Spacer -->
+    <div class="col-span-1"></div>
   </div>
 </template>
 
@@ -403,18 +593,30 @@ export default {
       activeForm: "front",
       activeModal: false,
       frontFormInput: {
-        name: "",
-        tagline: "",
+        name: "Your Name Here",
+        tagline: "Your Tagline Here",
         imageURL: "",
-        font: "Arial, sans-serif",
-        fontSize: 32,
+        font: "Ubuntu, sans-serif",
+        fontSize: 36,
         background: "#FFFFFF",
-        fontColor: "#000000",
-        textAlignment: "left",
+        fontColor: "#4E67EB",
+        textAlignment: "center",
       },
       backFormInput: {
         backImageURL: "",
         backFileType: "",
+      },
+      backACOMInput: {
+        background: "#FFFFFF",
+        fontColor: "#4E67EB",
+        images: "2",
+        sex: "M",
+        height: "5,11",
+        eyes: "",
+        hair: "",
+        shoe: "",
+        age: "",
+        other: "Other information...",
       },
       toggleForm: false,
     };
@@ -462,3 +664,36 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.color {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 30px;
+  background-color: transparent;
+  cursor: pointer;
+}
+.color::-webkit-color-swatch {
+  border-radius: 5px;
+  border: 1px solid lightgray;
+}
+.color::-moz-color-swatch {
+  border-radius: 15px;
+  border: 1px solid lightgray;
+}
+</style>

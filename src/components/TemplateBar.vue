@@ -1,21 +1,32 @@
 <template>
-  <div class="grid grid-cols-1 h-screen overflow-y-scroll pt-5">
+  <div class="col-span-2 grid grid-cols-1 h-screen overflow-y-scroll pt-5">
     <!-- Template Images -->
     <ul>
       <!-- Heading Text -->
-      <div class="text-center">
+      <div class="text-center mb-5 mt-14">
         <h1 class="font-bold text-lg text-black">Change Template</h1>
         <p class="text-xs">Choose a template to start editing.</p>
       </div>
-      <li @click="emitSelectedTemplate(1)">
-        <img class="p-5" src="../assets/img/template1.png" alt="template1" />
-      </li>
-      <li @click="emitSelectedTemplate(2)">
-        <img class="p-5" src="../assets/img/template2.png" alt="template2" />
-      </li>
-      <li @click="emitSelectedTemplate(3)">
+      <li @click="activateTemplate(1)">
         <img
-          class="p-5 mb-[100px]"
+          class="p-5"
+          :class="{ 'bg-[#4E67EB]': activeTemplate === 1 }"
+          src="../assets/img/template1.png"
+          alt="template1"
+        />
+      </li>
+      <li @click="activateTemplate(2)">
+        <img
+          class="p-5"
+          :class="{ 'bg-[#4E67EB]': activeTemplate === 2 }"
+          src="../assets/img/template2.png"
+          alt="template2"
+        />
+      </li>
+      <li @click="activateTemplate(3)">
+        <img
+          class="p-5"
+          :class="{ 'bg-[#4E67EB]': activeTemplate === 3 }"
           src="../assets/img/template3.png"
           alt="template3"
         />
@@ -29,10 +40,19 @@ import { mapMutations } from "vuex";
 
 export default {
   name: "TemplateBar",
+  data() {
+    return {
+      activeTemplate: 1,
+    };
+  },
   methods: {
     ...mapMutations(["setSelectedTemplate"]),
     emitSelectedTemplate(template) {
       this.setSelectedTemplate({ template });
+    },
+    activateTemplate(val) {
+      this.emitSelectedTemplate(val);
+      this.activeTemplate = val;
     },
   },
 };

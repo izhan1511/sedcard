@@ -360,6 +360,22 @@
           />
         </div>
       </div>
+      <!-- Disclaimer -->
+      <div class="col-span-4 grid grid-cols-2 gap-x-2 items-center mt-5">
+        <div class="col-span-2 flex flex-col space-y-2 mb-5">
+          <p>
+            Your personal data will be used to process your order, support your
+            experience throughout this website, and for other purposes described
+            in our privacy policy.
+          </p>
+          <button
+            type="submit"
+            class="bg-primary w-full text-white text-sm font-semibold px-5 py-2 rounded-md"
+          >
+            Pay USD59.28
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>

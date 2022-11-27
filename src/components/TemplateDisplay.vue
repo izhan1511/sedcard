@@ -1,9 +1,9 @@
 <template>
-  <div class="col-span-6 grid grid-cols-6">
+  <div class="col-span-4">
     <!-- Modal -->
     <div
       v-if="activeModal"
-      class="col-span-6 rounded-lg shadow dark:bg-gray-700 w-full"
+      class="col-span-4 rounded-lg shadow dark:bg-gray-700 w-full"
     >
       <!-- Modal header -->
       <div
@@ -35,7 +35,7 @@
         </button>
       </div>
       <!-- Modal body -->
-      <div class="p-6 grid grid-cols-2 gap-x-28">
+      <div class="p-6 grid grid-cols-2 gap-x-14 h-[325px] my-5">
         <!-- Cropper -->
         <div>
           <clipper-basic
@@ -50,7 +50,7 @@
         </div>
         <div>
           <clipper-preview
-            class="col-span-1 basic md w-[200px] h-[200px]"
+            class="col-span-1 basic md"
             name="preview"
           ></clipper-preview>
         </div>
@@ -69,76 +69,11 @@
       </div>
     </div>
     <!-- Editor -->
-    <div v-else class="col-span-5">
+    <div v-else class="col-span-4 grid grid-cols-1 items-center justify-center">
       <!-- Front Editor -->
-      <div
-        v-if="activeForm === 'front' && !activeModal"
-        :style="[
-          getTemplate.main,
-          {
-            backgroundColor: frontFormInput.background,
-          },
-        ]"
-      >
-        <img
-          class="w-[350px] h-[500px]"
-          v-if="imageResultURL"
-          :src="imageResultURL"
-          alt="user-image"
-        />
-        <p class="text-sm font-semibold" v-else>Please Upload an Image</p>
+      <template v-if="activeForm === 'front' && !activeModal">
+        <span class="text-right text-black w-[350px]">Front</span>
         <div
-          :style="{
-            'font-family': frontFormInput.font,
-            'text-align': frontFormInput.textAlignment,
-            'background-color': frontFormInput.background,
-          }"
-        >
-          <h3
-            :style="[
-              getTemplate.h3,
-              {
-                color: frontFormInput.fontColor,
-                fontSize: frontFormInput.fontSize + 'px',
-              },
-              ,
-            ]"
-          >
-            {{ frontFormInput.name }}
-          </h3>
-          <p :style="getTemplate.p">
-            {{ frontFormInput.tagline }}
-          </p>
-        </div>
-      </div>
-      <!-- Back Editor -->
-      <div
-        v-else-if="activeForm === 'back'"
-        class="relative w-[350px] h-[500px]"
-      >
-        <div
-          v-if="backFormInput.backImageURL === ''"
-          class="text-center w-fill text-sm font-semibold p-5"
-        >
-          <span>Please Upload an Image</span>
-        </div>
-        <div v-else>
-          <img
-            class="w-[350px] h-[500px]"
-            v-if="backImageResultURL"
-            :src="backImageResultURL"
-            alt="user-image"
-          />
-        </div>
-      </div>
-      <!-- CheckForm Editor -->
-      <div
-        v-else
-        class="col-span-6 flex flex-row items-center justify-center space-x-4 rounded-md m-0 p-0"
-      >
-        <!-- Front Result -->
-        <div
-          class="col-span-3"
           :style="[
             getTemplate.main,
             {
@@ -147,12 +82,18 @@
           ]"
         >
           <img
-            class="w-[350px] h-[500px]"
+            :style="getTemplate.img"
             v-if="imageResultURL"
             :src="imageResultURL"
             alt="user-image"
           />
-          <p class="text-sm font-semibold" v-else>Please Upload an Image</p>
+          <img
+            v-else
+            class="w-[350px] h-[500px]"
+            :class="{ 'w-[350px] h-[400px]': getSelectedTemplate === 2 }"
+            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1964&q=80"
+            alt="user-image"
+          />
           <div
             :style="{
               'font-family': frontFormInput.font,
@@ -177,31 +118,96 @@
             </p>
           </div>
         </div>
-        <!-- Back Result -->
-        <div class="col-span-3 relative w-[350px] h-[500px]">
+      </template>
+      <!-- Back Editor -->
+      <template v-else-if="activeForm === 'back'">
+        <span class="text-right text-black w-[350px]">Back</span>
+        <HeadEditor
+          v-if="this.$router.currentRoute.fullPath !== '/acom'"
+          :backImageURL="backFormInput.backImageURL"
+          :backImageResultURL="backImageResultURL"
+        />
+        <AcomEditor v-else />
+      </template>
+      <!-- CheckForm Editor -->
+      <template v-else>
+        <span class="text-black w-[350px]">Preview</span>
+        <div
+          class="col-span-4 flex flex-row items-center justify-center rounded-md m-0 p-0"
+        >
+          <!-- Front Result -->
           <div
-            v-if="backFormInput.backImageURL === ''"
-            class="text-center w-fill text-sm font-semibold p-5"
+            v-if="imageResultURL"
+            class="col-span-2 relative w-[350px] h-[500px]"
+            :style="[
+              getTemplate.main,
+              {
+                backgroundColor: frontFormInput.background,
+              },
+            ]"
           >
-            <span>Please Upload an Image</span>
-          </div>
-          <div v-else>
             <img
               class="w-[350px] h-[500px]"
-              v-if="backImageResultURL"
-              :src="backImageResultURL"
+              :class="{ 'w-[350px] h-[400px]': getSelectedTemplate === 2 }"
+              :src="imageResultURL"
               alt="user-image"
             />
+            <div
+              :style="{
+                'font-family': frontFormInput.font,
+                'text-align': frontFormInput.textAlignment,
+                'background-color': frontFormInput.background,
+              }"
+            >
+              <h3
+                :style="[
+                  getTemplate.h3,
+                  {
+                    color: frontFormInput.fontColor,
+                    fontSize: frontFormInput.fontSize + 'px',
+                  },
+                  ,
+                ]"
+              >
+                {{ frontFormInput.name }}
+              </h3>
+              <p :style="getTemplate.p">
+                {{ frontFormInput.tagline }}
+              </p>
+            </div>
           </div>
+          <div v-else class="col-span-2 relative w-[350px] h-[500px]">
+            <p class="text-sm font-semibold p-5">
+              Please Upload a Front Image to get Started
+            </p>
+          </div>
+          <!-- Back Result -->
+          <HeadResult
+            :backImageURL="backFormInput.backImageURL"
+            :backImageResultURL="backImageResultURL"
+            v-if="this.$router.currentRoute.fullPath !== '/acom'"
+          />
+          <AcomResult v-else />
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import AcomEditor from "./BackEditor/AcomEditor.vue";
+import HeadEditor from "./BackEditor/HeadEditor.vue";
+import AcomResult from "./BackResult/AcomResult.vue";
+import HeadResult from "./BackResult/HeadResult.vue";
+
 export default {
+  components: {
+    AcomEditor,
+    HeadEditor,
+    AcomResult,
+    HeadResult,
+  },
   props: {
     activeForm: {
       type: String,
@@ -253,7 +259,7 @@ export default {
         h3: {
           width: "100%",
           position: "absolute",
-          top: "420px",
+          top: "410px",
           left: 0,
           "z-index": 100,
           color: "#000000",
@@ -263,7 +269,7 @@ export default {
         p: {
           width: "100%",
           position: "absolute",
-          top: "480px",
+          top: "470px",
           left: 0,
           "z-index": 100,
           color: "#FFFFFF",
@@ -273,19 +279,19 @@ export default {
       templateTwo: {
         main: {
           width: "350px",
-          height: "600px",
+          height: "500px",
           padding: "0 20px 0 20px",
           position: "relative",
           "text-align": "center",
         },
         img: {
           width: "350px",
-          height: "500px",
+          height: "400px",
         },
         h3: {
           width: "100%",
           position: "absolute",
-          top: "495px",
+          top: "400px",
           left: 0,
           "z-index": 100,
           color: "black",
@@ -295,7 +301,7 @@ export default {
         p: {
           width: "100%",
           position: "absolute",
-          top: "540px",
+          top: "450px",
           left: 0,
           "z-index": 100,
           color: "black",
